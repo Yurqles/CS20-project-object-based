@@ -26,8 +26,15 @@ let map = {
     tileH : 16,
 }
 
+platforms = {
+    x: 50,
+    y: 430,
+    w: 100,
+    h: 16,
+}
+
 let player = {
-    x: 300,
+    x: 0,
     y: 0,
     w: 32,
     h: 32,
@@ -85,13 +92,12 @@ requestAnimationFrame(draw);
 
 function draw() {
     //Logic
-    horizontalCollision();
-    //verticalCollision();
-    //Collision();
 
     // KEYBOARD CONTROLS
     player.x += player.x_velocity;
+    horizontalCollision();
     player.y += player.y_velocity;
+    verticalCollision();
 
     if (controller.up && player.jumping == false) {
         player.y_velocity -= 19;
@@ -158,20 +164,31 @@ function draw() {
     requestAnimationFrame(draw);
 }
 
-function horizontalCollision() {console.log(player.x);
-    if (player.x < map.x1 - map.tileW) {// right side of platform
-        player.x = map.x1 + 30;
-    } else if (player.x + player.w > map.x1) {//left side of platform
-        player.x = map.x1 - 30;
+function horizontalCollision() {
+    if (RectCollision(player, platforms)) { 
+        if (player.x_velocity > 0) {//left side
+            player.x = platforms.x + 0.1;
+        } else if (player.x_velocity < 0) {//right side 
+            player.x = player.x + platforms.x;
+        } 
     }
 }
 
 function verticalCollision() {
+    if (RectCollision(player, platforms)) {
+        if (player.y_velocity > 0) { //top
+            player.y = platforms.y;
+        } else if (player.y_velocity < 0) { //bottom
+            player.y = platforms.y;
+        } 
+    }
+}
 
+function RectCollision(rect1, rect2) {
+    return (rect1.x < rect2.x + rect2.w &&
+            rect1.x + rect1.w > rect2.x &&
+            rect1.y < rect2.y + rect2.h &&
+            rect1.y + rect1.h > rect2.y)  
 }
 
 
-rect1.x < rect2.x + rect2.width &&
-rect1.x + rect1.width > rect2.x &&
-rect1.y < rect2.y + rect2.height &&
-rect1.y + rect1.height > rect2.y
