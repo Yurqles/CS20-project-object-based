@@ -3,48 +3,7 @@
 //Setup Canvas and Graphics Context
 let cnv = document.getElementById("myCanvas");
 let ctx = cnv.getContext("2d");
-// 19 rows and 17 columns - 32 x 32
 initGraphics(608, 544)
-
-//Create objects to represent the map
-let map = {
-    x1: 50,
-    y1: 430,
-    x2: 250,
-    y2: 430,
-    x3: 450,
-    y3: 430,
-    x4: 356,
-    y4: 330,
-    x5: 150,
-    y5: 330,
-    x6: -50,
-    y6: 330,
-    x7: 560,
-    y7: 330,
-    tileW : 100,
-    tileH : 16,
-}
-
-platforms = {
-    x: 50,
-    y: 430,
-    w: 100,
-    h: 16,
-}
-
-let player = {
-    x: 0,
-    y: 0,
-    w: 32,
-    h: 32,
-    x_velocity: 0, // move x
-    y_velocity: 0, //move y 
-    col: 0,
-    row: 0,
-    alive : true,
-    jumping: false,
-}
 
 let controller = {
     left: false,
@@ -76,23 +35,11 @@ let controller = {
 document.addEventListener("keydown", controller.keyboard);
 document.addEventListener('keyup', controller.keyboard);
 
-//Spritesheet 16 x 16
-let spriteSheetImg = document.getElementById('sprite-sheet');
-let spriteY = 0;
-let spriteX = 66;
-//Background
-let background = document.getElementById('background');
-//Platforms with the width and height
-let platform = new Image();
-platform.src = 'images/platform.png';
-
-
 // Main Program Loop
 requestAnimationFrame(draw);
 
 function draw() {
     //Logic
-
     // KEYBOARD CONTROLS
     player.x += player.x_velocity;
     horizontalCollision();
@@ -100,7 +47,7 @@ function draw() {
     verticalCollision();
 
     if (controller.up && player.jumping == false) {
-        player.y_velocity -= 19;
+        player.y_velocity -= 20;
         player.jumping = true;
     }
     if (controller.left) {
@@ -135,27 +82,14 @@ function draw() {
     ctx.drawImage(background, 0, 0, 608, 544)
 
     //Draw platforms
-    ctx.drawImage(platform, map.x1, map.y1, map.tileW, map.tileH);
-    ctx.drawImage(platform, map.x2, map.y2, map.tileW, map.tileH);
-    ctx.drawImage(platform, map.x3, map.y3, map.tileW, map.tileH);
-    ctx.drawImage(platform, map.x4, map.y4, map.tileW, map.tileH);
-    ctx.drawImage(platform, map.x5, map.y5, map.tileW, map.tileH);
-    ctx.drawImage(platform, map.x5, map.y5, map.tileW, map.tileH);
-    ctx.drawImage(platform, map.x6, map.y6, map.tileW, map.tileH);
-    ctx.drawImage(platform, map.x7, map.y7, map.tileW, map.tileH);
-    ctx.drawImage(platform, map.x8, map.y8, map.tileW, map.tileH);
-    ctx.drawImage(platform, map.x9, map.y9, map.tileW, map.tileH);
-    ctx.drawImage(platform, map.x10, map.y10, map.tileW, map.tileH);
+    for (let n = 0; n < platforms.length; n++) {
+        drawPlatforms(n);
+    }
 
     //Draw a ground
     ctx.strokeStyle = 'black';
     ctx.line(0, 515, 608, 515);
     ctx.stroke();
-
-    //hitbox sorta
-    ctx.strokeStyle= 'grey';
-    ctx.rect(player.x, player.y, player.w, player.h);
-    ctx.fill();
 
     //Draw the player
     ctx.drawImage(spriteSheetImg, spriteX, spriteY, 16, 16, player.x, player.y, player.w, player.h)
@@ -163,32 +97,3 @@ function draw() {
     // Request another Animation Frame
     requestAnimationFrame(draw);
 }
-
-function horizontalCollision() {
-    if (RectCollision(player, platforms)) { 
-        if (player.x_velocity > 0) {//left side
-            player.x = platforms.x + 0.1;
-        } else if (player.x_velocity < 0) {//right side 
-            player.x = player.x + platforms.x;
-        } 
-    }
-}
-
-function verticalCollision() {
-    if (RectCollision(player, platforms)) {
-        if (player.y_velocity > 0) { //top
-            player.y = platforms.y;
-        } else if (player.y_velocity < 0) { //bottom
-            player.y = platforms.y;
-        } 
-    }
-}
-
-function RectCollision(rect1, rect2) {
-    return (rect1.x < rect2.x + rect2.w &&
-            rect1.x + rect1.w > rect2.x &&
-            rect1.y < rect2.y + rect2.h &&
-            rect1.y + rect1.h > rect2.y)  
-}
-
-
