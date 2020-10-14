@@ -189,3 +189,21 @@ function RectCollision(rect1, rect2, i) {
         rect1.y < rect2[i].y + rect2[i].h &&
         rect1.y + rect1.h > rect2[i].y)  
 }
+
+function endGame(){
+    if (player.x < 565 + 50 &&
+        player.x + player.w > 565 &&
+        player.y < 120 + 50 &&
+        player.y + player.h > 120) {
+        background = null;
+        //Game is done
+        ctx.fillStyle = 'black';
+        ctx.rect(0, 0, 608, 544);
+        ctx.fill();
+
+        ctx.font = "30px Comic Sans MS";
+        ctx.fillStyle = "red";
+        ctx.textAlign = "center";
+        ctx.fillText("The End", cnv.width/2, cnv.height/2);
+    }
+}
