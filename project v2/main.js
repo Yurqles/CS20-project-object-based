@@ -78,6 +78,8 @@ function draw() {
     // Drawing
     ctx.clearRect(0, 0, cnv.width, cnv.height);
 
+    endGame();
+    
     //Draw a background
     ctx.drawImage(background, 0, 0, 608, 544)
 
