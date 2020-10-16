@@ -40,12 +40,15 @@ requestAnimationFrame(draw);
 
 function draw() {
     //Logic
+    nextLevel();
     // KEYBOARD CONTROLS
     player.x += player.x_velocity;
     horizontalCollision();
     player.y += player.y_velocity;
     verticalCollision();
-
+    //Bat collision and bats movement pattern
+    batsMove();
+    collisionBats();
     if (controller.up && player.jumping == false) {
         player.y_velocity -= 20;
         player.jumping = true;
@@ -63,35 +66,27 @@ function draw() {
     //Friction - will slide a bit and come to a stop
     player.x_velocity *= 0.9;
     player.y_velocity *= 0.9;
-
     //Make the player stay within the area
-    if (player.y > 483) {
-        player.y = 483;
-        player.jumping = false;
-    } 
+    if (stage == 1) {
+        if (player.y > 483) {
+            player.y = 483;
+            player.jumping = false;
+        } 
+    }
     if (player.x < -20) {
         player.x = 608;
     } else if (player.x > 608) {
         player.x = -20;
     }
-
+    //death
+    if (player.alive == false) {
+        stage = 3;
+    }
     // Drawing
     ctx.clearRect(0, 0, cnv.width, cnv.height);
 
-    endGame();
-    
-    //Draw a background
-    ctx.drawImage(background, 0, 0, 608, 544)
-
-    //Draw platforms
-    for (let n = 0; n < platforms.length; n++) {
-        drawPlatforms(n);
-    }
-
-    //Draw a ground
-    ctx.strokeStyle = 'black';
-    ctx.line(0, 515, 608, 515);
-    ctx.stroke();
+    //Draw the map
+    initialise();
 
     //Draw the player
     ctx.drawImage(spriteSheetImg, spriteX, spriteY, 16, 16, player.x, player.y, player.w, player.h)
@@ -99,3 +94,4 @@ function draw() {
     // Request another Animation Frame
     requestAnimationFrame(draw);
 }
+
