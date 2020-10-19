@@ -189,6 +189,7 @@ let bats = []; //16 x 18
 bats.push({
     x: 0,
     y: 85,
+    x_velocity: 0,
     w: 32,
     h: 32,
     spriteX: 0,
@@ -196,6 +197,7 @@ bats.push({
 },{
     x: 580,
     y: 200,
+    x_velocity: 0,
     w: 32,
     h: 32,
     spriteX: 0,
@@ -203,6 +205,7 @@ bats.push({
 },{
     x: 0,
     y: 200,
+    x_velocity: 0,
     w: 32,
     h: 32,
     spriteX: 0,
@@ -210,6 +213,7 @@ bats.push({
 },{
     x: 580,
     y: 315,
+    x_velocity: 0,
     w: 32,
     h: 32,
     spriteX: 0,
@@ -217,6 +221,7 @@ bats.push({
 },{
     x: 0,
     y: 315,
+    x_velocity: 0,
     w: 32,
     h: 32,
     spriteX: 0,
@@ -224,6 +229,7 @@ bats.push({
 },{
     x: 580,
     y: 410,
+    x_velocity: 0,
     w: 32,
     h: 32,
     spriteX: 0,
@@ -231,6 +237,7 @@ bats.push({
 },{
     x: 0,
     y: 410,
+    x_velocity: 0,
     w: 32,
     h: 32,
     spriteX: 0,
@@ -393,17 +400,17 @@ function collisionBats() {
 function batsMove() {
     if (stage == 2) {
         for (let n = 1; n < bats.length; n += 2) { 
-             if (bats[n].x >= 608) {
-                bats[n].x -= 9;console.log('bats')
+             if (bats[n].x + bats[n].w >= 608) {
+                bats[n].x_velocity = -7;console.log('1')
             } else if (bats[n].x <= 305) {
-                bats[n].x += 9;console.log('bats')
+                bats[n].x_velocity = 7;console.log('2')
             } 
         }
         for (let n = 0; n < bats.length; n += 2) {
-            if (bats[n].x < -1) {
-                bats[n].x += 9;console.log('bats')
-            } else if (bats[n].x > 305) {
-                bats[n].x -= 9;console.log('bats')
+            if (bats[n].x <= 0) {
+                bats[n].x_velocity = 7;console.log('3')
+            } else if (bats[n].x >= 305 + bats[n].w) {
+                bats[n].x_velocity = -7;console.log('4')
             }
         }
     }
