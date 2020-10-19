@@ -45,6 +45,9 @@ function draw() {
     player.x += player.x_velocity;
     horizontalCollision();
     player.y += player.y_velocity;
+    for (let n = 0;n < bats.length; n++) {
+        bats[n].x += bats[n].x_velocity;
+    }
     verticalCollision();
     //Bat collision and bats movement pattern
     batsMove();
@@ -94,4 +97,3 @@ function draw() {
     // Request another Animation Frame
     requestAnimationFrame(draw);
 }
-
