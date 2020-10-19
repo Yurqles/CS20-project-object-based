@@ -1,10 +1,11 @@
 body {
     text-align: center;
     text-align: auto;
+    background-color: black;
 }
 canvas {
     border: 5px solid grey;
 }
 p:hover {
-    color: maroon;    
+    color: white;    
 }
