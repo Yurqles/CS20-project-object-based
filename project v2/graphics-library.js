@@ -173,7 +173,7 @@ let background = [document.getElementById('background'), document.getElementById
     
 let player = {
     x: 0,
-    y: 0,
+    y: 500,
     w: 32,
     h: 32,
     x_velocity: 0, // move x
